@@ -1,5 +1,5 @@
 {
-  "name": "nativescript-barcodescanner",
+  "name": "@flypapertech/nativescript-barcodescanner",
   "version": "3.4.2",
   "description": "Scan QR/barcodes with your NativeScript app.",
   "main": "barcodescanner",

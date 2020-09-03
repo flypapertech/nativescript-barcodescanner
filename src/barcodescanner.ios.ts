@@ -457,7 +457,6 @@ class QRCodeReaderDelegateImpl extends NSObject implements QRCodeReaderDelegate 
   private _reportDuplicates: boolean;
   private _requestedFormats: string;
   private _scannedArray: Array<string>;
-  private _player: AVAudioPlayer;
   // initializing this value may prevent recognizing too quickly
   private _lastScanResultTs: number = new Date().getTime();
 
@@ -467,13 +466,6 @@ class QRCodeReaderDelegateImpl extends NSObject implements QRCodeReaderDelegate 
     this._requestedFormats = requestedFormats;
     this._callback = callback;
     this._beepOnScan = beepOnScan;
-    if (this._beepOnScan) {
-      const barcodeBundlePath = NSBundle.bundleWithIdentifier("com.telerik.BarcodeScannerFramework").bundlePath;
-      this._player = new AVAudioPlayer({contentsOfURL: NSURL.fileURLWithPath(barcodeBundlePath + "/beep.caf")});
-      this._player.numberOfLoops = 1;
-      this._player.volume = 0.7; // this is not the actual volume, as that really depends on the device volume
-      this._player.prepareToPlay();
-    }
   }
 
   public readerDidCancel(reader: QRCodeReaderViewController): void {
@@ -515,8 +507,8 @@ class QRCodeReaderDelegateImpl extends NSObject implements QRCodeReaderDelegate 
       this._callback(value, barcodeFormat);
     }
 
-    if (validResult && this._player) {
-      this._player.play();
+    if (validResult && this._beepOnScan) {
+      AudioServicesPlayAlertSoundWithCompletion(1057, null)
     }
   }
 }

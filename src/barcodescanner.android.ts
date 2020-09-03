@@ -152,14 +152,9 @@ export class BarcodeScanner {
         if (arg.torchOn === true) {
           intent.putExtra(com.google.zxing.client.android.Intents.Scan.TORCH_ON, true);
         }
-        if (arg.vibrateOnSilent) {
-          const mode = audioManager.getRingerMode();
-          if (mode === android.media.AudioManager.RINGER_MODE_VIBRATE) {
-            intent.putExtra(com.google.zxing.client.android.Intents.Scan.VIBRATE_ON_SCAN, true)
-          }
-          else {
-            intent.putExtra(com.google.zxing.client.android.Intents.Scan.BEEP_ON_SCAN, arg.beepOnScan !== false);
-          }
+        const mode = audioManager.getRingerMode();
+        if (mode === android.media.AudioManager.RINGER_MODE_VIBRATE) {
+          intent.putExtra(com.google.zxing.client.android.Intents.Scan.VIBRATE_ON_SCAN, true)
         }
         else {
           intent.putExtra(com.google.zxing.client.android.Intents.Scan.BEEP_ON_SCAN, arg.beepOnScan !== false);

@@ -120,6 +120,7 @@ export class BarcodeScanner {
 
         // the intent name should match the filter name in AndroidManifest.xml, don't change it
         const intent = new android.content.Intent("com.google.zxing.client.android.SCAN");
+        const audioManager = new android.media.AudioManager(appModule.android.context);
 
         // limit searching for a valid Intent to this package only
         intent.setPackage(appModule.android.context.getPackageName());
@@ -151,7 +152,18 @@ export class BarcodeScanner {
         if (arg.torchOn === true) {
           intent.putExtra(com.google.zxing.client.android.Intents.Scan.TORCH_ON, true);
         }
-        intent.putExtra(com.google.zxing.client.android.Intents.Scan.BEEP_ON_SCAN, arg.beepOnScan !== false);
+        if (arg.vibrateOnSilent) {
+          const mode = audioManager.getRingerMode();
+          if (mode === android.media.AudioManager.RINGER_MODE_VIBRATE) {
+            intent.putExtra(com.google.zxing.client.android.Intents.Scan.VIBRATE_ON_SCAN, true)
+          }
+          else {
+            intent.putExtra(com.google.zxing.client.android.Intents.Scan.BEEP_ON_SCAN, arg.beepOnScan !== false);
+          }
+        }
+        else {
+          intent.putExtra(com.google.zxing.client.android.Intents.Scan.BEEP_ON_SCAN, arg.beepOnScan !== false);
+        }
         if (arg.resultDisplayDuration !== undefined) {
           //  ZXing expects a String
           intent.putExtra(com.google.zxing.client.android.Intents.Scan.RESULT_DISPLAY_DURATION_MS, "" + arg.resultDisplayDuration);

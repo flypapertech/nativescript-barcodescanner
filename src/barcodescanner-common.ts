@@ -89,6 +89,12 @@ export interface CommonScanOptions {
    * Default: true
    */
   beepOnScan?: boolean;
+
+  /**
+   * Vibrate when device is in silent mode, disables beep in silent mode as well.
+   * Default: false
+   */
+  vibrateOnSilent?: boolean;
 }
 
 export interface IOS extends CommonScanOptions {
@@ -184,6 +190,12 @@ export const beepOnScanProperty = new Property<BarcodeScannerView, boolean>({
   valueConverter: booleanConverter
 });
 
+export const vibrateOnSilentProperty = new Property<BarcodeScannerView, boolean>({
+  name: "vibrateOnSilent",
+  defaultValue: false,
+  valueConverter: booleanConverter
+});
+
 export const reportDuplicatesProperty = new Property<BarcodeScannerView, boolean>({
   name: "reportDuplicates",
   defaultValue: false,
@@ -203,6 +215,7 @@ export abstract class BarcodeScannerView extends ContentView {
   protected formats: string;
   protected preferFrontCamera: boolean;
   protected beepOnScan: boolean;
+  protected vibrateOnSilent: boolean;
   protected reportDuplicates: boolean;
   protected pause: boolean;
 
@@ -226,6 +239,10 @@ export abstract class BarcodeScannerView extends ContentView {
     this.beepOnScan = value;
   }
 
+  [vibrateOnSilentProperty.setNative](value: boolean) {
+    this.vibrateOnSilent = value;
+  }
+
   [reportDuplicatesProperty.setNative](value: boolean) {
     this.reportDuplicates = value;
   }
@@ -240,4 +257,5 @@ pauseProperty.register(BarcodeScannerView);
 formatsProperty.register(BarcodeScannerView);
 preferFrontCameraProperty.register(BarcodeScannerView);
 beepOnScanProperty.register(BarcodeScannerView);
+vibrateOnSilentProperty.register(BarcodeScannerView);
 reportDuplicatesProperty.register(BarcodeScannerView);

@@ -16,8 +16,13 @@ export class BarcodeScannerView extends BarcodeScannerBaseView {
     this._hasSupport = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo) !== null;
     if (this._hasSupport) {
       if (typeof AVAudioSession.sharedInstance().setCategoryModeOptionsError === "function") {
-        // if music was playing, it would stop unless we do this:
-        AVAudioSession.sharedInstance().setCategoryModeOptionsError(AVAudioSessionCategoryPlayback, AVAudioSessionModeDefault, AVAudioSessionCategoryOptions.MixWithOthers);
+        if (this.vibrateOnSilent) {
+          AVAudioSession.sharedInstance().setCategoryError(AVAudioSessionCategoryAmbient);
+        }
+        else {
+          // if music was playing, it would stop unless we do this:
+          AVAudioSession.sharedInstance().setCategoryModeOptionsError(AVAudioSessionCategoryPlayback, AVAudioSessionModeDefault, AVAudioSessionCategoryOptions.MixWithOthers);
+        }
       }
     }
   }

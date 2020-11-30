@@ -118,7 +118,7 @@ export class BarcodeScanner {
 
         // the intent name should match the filter name in AndroidManifest.xml, don't change it
         const intent = new android.content.Intent("com.google.zxing.client.android.SCAN");
-        const audioManager = new android.media.AudioManager(appModule.android.context);
+        const audioManager = new android.media.AudioManager(Application.android.context);
 
         // limit searching for a valid Intent to this package only
         intent.setPackage(Application.android.context.getPackageName());

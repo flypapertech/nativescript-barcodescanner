@@ -13,6 +13,10 @@
 [twitter-image]:https://img.shields.io/twitter/follow/eddyverbruggen.svg?style=social&label=Follow%20me
 [twitter-url]:https://twitter.com/eddyverbruggen
 
+> 💡 Plugin version 4.0.0+ is compatible with NativeScript 7+. If you need to target older NativeScript versions, please stick to plugin version 3.4.2.
+
+> ⚠️ If you app crashes with the 4.x version on iOS, try setting `beepOnScan` to `false`. And please open an issue if so.
+
 ## Want a quick demo?
 
 > Note that running this only makes sense on a real device.
@@ -31,7 +35,7 @@ npm run demo.android (or demo.ios / demo.ios.device)
 #### Embedded (iOS only)
 
 ```bash
-npm run demo-ng.ios (or demo.ios.device)
+npm run demo.ios
 ```
 
 ## Supported barcode types
@@ -122,8 +126,6 @@ View:
       (scanResult)="onScanResult($event)">
 </BarcodeScanner>
 ```
-
-See 'demo-ng' for details. Do not run it for Android, because embedding a view is not supported on that platform.
 
 ### Embedding in Vue
 main.ts:
